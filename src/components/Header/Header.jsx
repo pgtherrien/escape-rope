@@ -2,6 +2,7 @@ import React from "react";
 import { auth, provider } from "../../firebase";
 import { Navbar, Alignment, Button, Tabs, Tab } from "@blueprintjs/core";
 import { Link } from "react-router-dom";
+import history from "../../history";
 
 import styles from "./Header.module.css";
 
@@ -39,11 +40,21 @@ class Header extends React.PureComponent {
 
   handleTabChange = selectedTabId => this.setState({ selectedTabId });
 
+  handleHomeClick = () => {
+    this.setState({ selectedTabId: "/" });
+    history.push("/");
+  };
+
   render() {
     return (
       <Navbar>
         <Navbar.Group align={Alignment.LEFT}>
-          <Navbar.Heading>Escape Rope</Navbar.Heading>
+          <div className={styles["site-icon"]} onClick={this.handleHomeClick}>
+            <img alt="Escape Rope" src="escape_rope.ico" />
+          </div>
+          <Navbar.Heading onClick={this.handleHomeClick}>
+            <span className={styles["site-home"]}>Escape Rope</span>
+          </Navbar.Heading>
           <Navbar.Divider />
           <Tabs
             animate={true}
@@ -52,7 +63,6 @@ class Header extends React.PureComponent {
             onChange={this.handleTabChange}
             selectedTabId={this.state.selectedTabId}
           >
-            <Tab title={<Link to="/">Home</Link>} id="/" />
             <Tab title={<Link to="/list">Lists</Link>} id="/list" />
           </Tabs>
         </Navbar.Group>
