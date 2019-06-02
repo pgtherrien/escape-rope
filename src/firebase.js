@@ -1,7 +1,7 @@
 import firebase from "firebase";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyDMp5EL7ReOagH6KHa_d5FGD-QLFlfEhpk",
+  apiKey: "AIzaSyBYNNPrEhtlXA2YRbZZdDotsIgdcr7oSF4",
   authDomain: "escape-rope.firebaseapp.com",
   databaseURL: "https://escape-rope.firebaseio.com",
   projectId: "escape-rope",

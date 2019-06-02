@@ -8,7 +8,7 @@ import {
   Tab
 } from "@blueprintjs/core";
 
-import firebase from "../../firebase";
+// import firebase from "../../firebase";
 
 class ListNavbar extends React.PureComponent {
   constructor(props) {
@@ -19,19 +19,19 @@ class ListNavbar extends React.PureComponent {
     };
   }
 
-  componentDidMount() {
-    const listsRef = firebase.database().ref("lists");
-    listsRef.on("value", snapshot => {
-      let userLists = snapshot.val();
-      let newLists = [];
-      for (let list in userLists) {
-        newLists.push(list);
-      }
-      this.setState({
-        userLists: newLists
-      });
-    });
-  }
+  // componentDidMount() {
+  //   const listsRef = firebase.database().ref("lists");
+  //   listsRef.on("value", snapshot => {
+  //     let userLists = snapshot.val();
+  //     let newLists = [];
+  //     for (let list in userLists) {
+  //       newLists.push(list);
+  //     }
+  //     this.setState({
+  //       userLists: newLists
+  //     });
+  //   });
+  // }
 
   render() {
     return (
