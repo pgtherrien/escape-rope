@@ -1,7 +1,6 @@
 import React from "react";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 
-import Home from "../Home";
 import List from "../List";
 
 class App extends React.PureComponent {
@@ -9,7 +8,7 @@ class App extends React.PureComponent {
     return (
       <Router>
         <Route exact path="/" component={Home} />
-        <Route path="/list" component={List} />
+        <Route exact path="/list" component={List} />
       </Router>
     );
   }

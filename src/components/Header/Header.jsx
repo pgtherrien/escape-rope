@@ -1,9 +1,9 @@
 import React from "react";
-import { auth, provider } from "../../firebase";
-import { Navbar, Alignment, Button, Tabs, Tab } from "@blueprintjs/core";
 import { Link } from "react-router-dom";
-import history from "../../history";
+import { auth } from "../../firebase";
+import { Navbar, Alignment, Button, Tabs, Tab } from "@blueprintjs/core";
 
+import { useUserContext } from "../../contexts/user_context";
 import styles from "./Header.module.css";
 
 class Header extends React.PureComponent {
@@ -16,43 +16,27 @@ class Header extends React.PureComponent {
   }
 
   componentDidMount() {
+    const { actions } = useUserContext();
     auth.onAuthStateChanged(user => {
       if (user) {
-        this.setState({ user });
+        actions.persistUser(user);
       }
     });
   }
 
-  signOut = () => {
-    auth.signOut().then(() => {
-      this.setState({
-        user: null
-      });
-    });
-  };
-
-  signIn = () => {
-    auth.signInWithPopup(provider).then(result => {
-      const user = result.user;
-      this.setState({ user });
-    });
-  };
-
   handleTabChange = selectedTabId => this.setState({ selectedTabId });
 
-  handleHomeClick = () => {
-    this.setState({ selectedTabId: "/" });
-    history.push("/");
-  };
-
   render() {
+    const { actions, state } = useUserContext();
+    const { user = {} } = state;
+
     return (
       <Navbar>
         <Navbar.Group align={Alignment.LEFT}>
-          <div className={styles["site-icon"]} onClick={this.handleHomeClick}>
+          <div className={styles["site-icon"]}>
             <img alt="Escape Rope" src="escape_rope.ico" />
           </div>
-          <Navbar.Heading onClick={this.handleHomeClick}>
+          <Navbar.Heading>
             <span className={styles["site-home"]}>Escape Rope</span>
           </Navbar.Heading>
           <Navbar.Divider />
@@ -63,25 +47,24 @@ class Header extends React.PureComponent {
             onChange={this.handleTabChange}
             selectedTabId={this.state.selectedTabId}
           >
+            <Tab title={<Link to="/">Home</Link>} id="/" />
             <Tab title={<Link to="/list">Lists</Link>} id="/list" />
           </Tabs>
         </Navbar.Group>
-        {this.state.user ? (
+        {user ? (
           <Navbar.Group align={Alignment.RIGHT}>
             <div className={styles["user-image"]}>
-              <img alt="Profile" src={this.state.user.photoURL} />
+              <img alt="Profile" src={user.photoURL} />
             </div>
-            <span className={styles["user-name"]}>
-              {this.state.user.displayName}
-            </span>
+            <span className={styles["user-name"]}>{user.displayName}</span>
             <Navbar.Divider />
-            <Button minimal={true} onClick={this.signOut} icon={"log-out"}>
+            <Button minimal={true} onClick={actions.signOut} icon={"log-out"}>
               Sign Out
             </Button>
           </Navbar.Group>
         ) : (
           <Navbar.Group align={Alignment.RIGHT}>
-            <Button minimal={true} onClick={this.signIn} icon={"log-in"}>
+            <Button minimal={true} onClick={actions.signIn} icon={"log-in"}>
               Sign In
             </Button>
           </Navbar.Group>
