@@ -23,10 +23,10 @@ function Header(props) {
     <Navbar>
       <Navbar.Group align={Alignment.LEFT}>
         <div className={styles["site-icon"]}>
-          <img alt="Escape Rope" src="escape_rope.ico" />
+          <img alt="Escape Rope" src="icons/escape_rope.ico" />
         </div>
         <Navbar.Heading>
-          <span className={styles["site-home"]}>Escape Rope</span>
+          <span>Escape Rope</span>
         </Navbar.Heading>
         <Navbar.Divider />
         <Tabs
@@ -38,7 +38,7 @@ function Header(props) {
           }}
           selectedTabId={tabState.selectedTabId}
         >
-          <Tab title={<Link to="/">Home</Link>} id="/" />
+          <Tab title={<Link to="/">Events</Link>} id="/" />
           <Tab title={<Link to="/list">Lists</Link>} id="/list" />
         </Tabs>
       </Navbar.Group>
