@@ -1,12 +1,7 @@
 import React from "react";
-import {
-  Alignment,
-  HTMLSelect,
-  InputGroup,
-  Navbar,
-  Tabs,
-  Tab
-} from "@blueprintjs/core";
+import { InputGroup, Tabs, Tab, Tooltip, Position } from "@blueprintjs/core";
+
+import styles from "./List.module.css";
 
 // import firebase from "../../firebase";
 
@@ -15,52 +10,47 @@ class ListNavbar extends React.PureComponent {
     super(props);
     this.state = {
       listName: "",
-      selectedGeneration: "1"
+      selectedTabId: "Kanto"
     };
   }
 
-  // componentDidMount() {
-  //   const listsRef = firebase.database().ref("lists");
-  //   listsRef.on("value", snapshot => {
-  //     let userLists = snapshot.val();
-  //     let newLists = [];
-  //     for (let list in userLists) {
-  //       newLists.push(list);
-  //     }
-  //     this.setState({
-  //       userLists: newLists
-  //     });
-  //   });
-  // }
+  renderGen = gen => {
+    return (
+      <Tab id={gen}>
+        <Tooltip content={gen} position={Position.BOTTOM}>
+          <img alt={gen} src={"images/" + gen + ".ico"} />
+        </Tooltip>
+      </Tab>
+    );
+  };
+
+  onSearch = val => {};
 
   render() {
     return (
-      <Navbar>
-        <Navbar.Group aligh={Alignment.LEFT}>
-          <HTMLSelect
-            large={true}
-            minimal={true}
-            value={this.state.selectedList}
-          />
-        </Navbar.Group>
-        <Navbar.Group align={Alignment.RIGHT}>
-          <Navbar.Heading>Generations:</Navbar.Heading>
-          <Navbar.Divider />
+      <div className={styles["list-container"]}>
+        <div className={styles["list-filters"]}>
           <Tabs
             animate={true}
-            id="generations"
-            selectedFilter={this.state.selectedGeneration}
+            onChange={gen => {
+              this.setState({ selectedTabId: gen });
+            }}
+            selectedTabId={this.state.selectedTabId}
           >
-            <Tab id="1" title="Kanto" />
-            <Tab id="2" title="Johto" />
-            <Tab id="3" title="Hoenn" />
-            <Tab id="4" title="Sinnoh" />
-            <Tab id="7" title="Alolan" />
-            <Tabs.Expander />
-            <InputGroup type="text" Placeholder="Search..." />
+            {this.renderGen("Kanto")}
+            {this.renderGen("Jhoto")}
+            {this.renderGen("Hoenn")}
+            {this.renderGen("Sinnoh")}
+            <div className={styles["gen-search"]}>
+              <InputGroup
+                type="text"
+                placeholder="Search..."
+                onChange={this.onSearch}
+              />
+            </div>
           </Tabs>
-        </Navbar.Group>
-      </Navbar>
+        </div>
+      </div>
     );
   }
 }

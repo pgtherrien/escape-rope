@@ -1,3 +1,9 @@
+.header-container {
+  position: fixed;
+  width: 100%;
+  z-index: 2;
+}
+
 .site-icon img {
   border-radius: 50%;
   max-width: 100%;
@@ -13,4 +19,17 @@
 
 .user-name {
   padding-left: 10px;
+}
+
+.drawer {
+  padding: 0 20px 0 20px;
+}
+
+.drawer-form {
+  padding-top: 20px;
+}
+
+.drawer-field {
+  padding-top: 10px;
+  width: 100%;
 }

@@ -5,8 +5,8 @@ import { database } from "../../firebase";
 import Header from "../Header";
 
 const ICON_PATHS = {
-  raid_boss: "icons/raid_boss.ico",
-  event: "icons/event.ico"
+  raid_boss: "images/raid_boss.ico",
+  event: "images/event.ico"
 };
 
 class Timeline extends React.PureComponent {
@@ -25,13 +25,19 @@ class Timeline extends React.PureComponent {
     database
       .collection("events")
       .where("endDate", ">", now)
-      .orderBy("endDate")
-      .orderBy("startDate", "asc")
       .get()
       .then(function(documents) {
         documents.forEach(function(doc) {
-          events.push(doc.data());
+          let data = doc.data();
+          data.startDate = data.startDate.toDate();
+          data.endDate = data.endDate.toDate();
+          events.push(data);
         });
+
+        events.sort(function compare(a, b) {
+          return a.startDate - b.startDate;
+        });
+
         oThis.setState({ events: events });
       });
   }
@@ -41,15 +47,12 @@ class Timeline extends React.PureComponent {
     let id = 0;
 
     events.forEach(function(event) {
-      let startDate = event.startDate.toDate();
-      let endDate = event.endDate.toDate();
-
       renderedEvents.push(
         <li key={id}>
           <time className={styles["timeline-time"]}>
-            <span>{startDate.toDateString()}</span>
+            <span>{event.startDate.toDateString()}</span>
             <span>
-              {startDate.toLocaleString("en-US", {
+              {event.startDate.toLocaleString("en-US", {
                 hour: "numeric",
                 hour12: true
               })}
@@ -66,9 +69,9 @@ class Timeline extends React.PureComponent {
             <h5>
               <b>
                 Event Ends on{" "}
-                {endDate.toDateString() +
+                {event.endDate.toDateString() +
                   " at " +
-                  endDate.toLocaleString("en-US", {
+                  event.endDate.toLocaleString("en-US", {
                     hour: "numeric",
                     hour12: true
                   })}

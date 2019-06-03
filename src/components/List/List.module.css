@@ -1,0 +1,16 @@
+.list-container {
+  background-color: #5c7080;
+  min-height: 1500px;
+  overflow: hidden;
+  height: 100%;
+}
+
+.list-filters {
+  position: fixed;
+  top: 70px;
+  left: 40%;
+}
+
+.gen-search {
+  padding-bottom: 25px;
+}
