@@ -1,4 +1,5 @@
 import React from "react";
+import Countdown from "react-countdown-now";
 
 import styles from "./Timeline.module.css";
 import { database } from "../../firebase";
@@ -67,15 +68,13 @@ class Timeline extends React.PureComponent {
             </h2>
             <p>{event.summary}</p>
             <h5>
-              <b>
-                Event Ends on{" "}
-                {event.endDate.toDateString() +
-                  " at " +
-                  event.endDate.toLocaleString("en-US", {
-                    hour: "numeric",
-                    hour12: true
-                  })}
-              </b>
+              {new Date() > event.startDate ? (
+                <b>
+                  Event Ends Countdown: <Countdown date={event.endDate} />
+                </b>
+              ) : (
+                <b>Event Ends {event.endDate.toDateString()}</b>
+              )}
             </h5>
           </div>
         </li>
