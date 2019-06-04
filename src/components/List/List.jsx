@@ -51,7 +51,25 @@ class List extends React.PureComponent {
     }
   };
 
-  onFilter = e => {
+  genFilter = gen => {
+    let referenceDex = this.REFERENCE_POKEDEX;
+    let pokedex = {};
+    const GEN_MAP = {
+      Kanto: 1,
+      Jhoto: 2,
+      Hoenn: 3,
+      Sinnoh: 4
+    };
+
+    Object.keys(referenceDex).forEach(function(number) {
+      if (referenceDex[number].Gen === GEN_MAP[gen]) {
+        pokedex[number] = referenceDex[number];
+      }
+    });
+    this.setState({ pokedex });
+  };
+
+  searchFilter = e => {
     let referenceDex = this.REFERENCE_POKEDEX;
     let filter = e.currentTarget.value;
     let pokedex = {};
@@ -78,7 +96,10 @@ class List extends React.PureComponent {
       <div>
         <Header path={this.props.location.pathname} />
         <div className={styles["list-container"]}>
-          <ListNavbar onFilter={this.onFilter} />
+          <ListNavbar
+            genFilter={this.genFilter}
+            searchFilter={this.searchFilter}
+          />
           <div className={styles["list-pokedex"]}>{dex}</div>
         </div>
       </div>

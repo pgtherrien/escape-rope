@@ -16,18 +16,22 @@ class ListNavbar extends React.PureComponent {
   }
 
   renderGen = gen => {
+    const { genFilter } = this.props;
     return (
       <Tab id={gen}>
         <Tooltip content={gen} position={Position.BOTTOM}>
-          <img alt={gen} src={"images/" + gen + ".ico"} />
+          <img
+            onClick={() => genFilter(gen)}
+            alt={gen}
+            src={"images/" + gen + ".ico"}
+          />
         </Tooltip>
       </Tab>
     );
   };
 
   render() {
-    const { onFilter } = this.props;
-
+    const { searchFilter } = this.props;
     return (
       <Tabs
         className={styles["list-filters"]}
@@ -44,8 +48,8 @@ class ListNavbar extends React.PureComponent {
         <InputGroup
           className={styles["list-search"]}
           type="text"
-          placeholder="Search..."
-          onChange={onFilter}
+          placeholder="Search by name or number..."
+          onChange={searchFilter}
         />
       </Tabs>
     );
@@ -53,7 +57,8 @@ class ListNavbar extends React.PureComponent {
 }
 
 ListNavbar.propTypes = {
-  onFilter: PropTypes.func.isRequired
+  genFilter: PropTypes.func.isRequired,
+  searchFilter: PropTypes.func.isRequired
 };
 
 export default ListNavbar;
