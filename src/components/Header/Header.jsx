@@ -1,13 +1,17 @@
 import React, { useEffect, useState } from "react";
+import JSONPretty from "react-json-pretty";
 import { Link } from "react-router-dom";
+import classNames from "classnames";
 
 import {
   Alignment,
   Button,
+  Classes,
   Navbar,
   NavbarDivider,
   NavbarGroup,
   NavbarHeading,
+  Overlay,
   Tab,
   Tabs
 } from "@blueprintjs/core";
@@ -24,8 +28,14 @@ function Header(props) {
   const [drawerState, setDrawerState] = useState({
     isOpen: false
   });
+  const [overlayState, setOverlayState] = useState({});
   const { actions, state } = useUserContext();
   const { user } = state;
+  const classes = classNames(
+    Classes.CARD,
+    Classes.ELEVATION_4,
+    styles["header-overlay"]
+  );
 
   useEffect(() => {
     auth.onAuthStateChanged(user => {
@@ -36,9 +46,27 @@ function Header(props) {
   }, [actions]);
 
   return (
-    <Navbar className={styles["navbar-container"]}>
+    <Navbar className={styles["header-container"]}>
       {drawerState.isOpen ? (
-        <EventForm onClose={() => setDrawerState({ isOpen: false })} />
+        <EventForm
+          onClose={event => {
+            setDrawerState({ isOpen: false });
+            setOverlayState({ event: event });
+          }}
+        />
+      ) : (
+        <span />
+      )}
+      {overlayState.event !== undefined ? (
+        <Overlay
+          isOpen={true}
+          onClose={() => setOverlayState({ isOpen: false })}
+          className={Classes.OVERLAY_SCROLL_CONTAINER}
+        >
+          <div className={classes}>
+            <JSONPretty id="json-pretty" data={overlayState.event} />
+          </div>
+        </Overlay>
       ) : (
         <span />
       )}
@@ -46,7 +74,7 @@ function Header(props) {
         <img
           alt="app"
           src="images/escape_rope.ico"
-          className={styles["navbar-app-icon"]}
+          className={styles["header-app-icon"]}
         />
         <NavbarHeading>
           <span>Escape Rope</span>
@@ -70,17 +98,17 @@ function Header(props) {
             large={true}
             minimal={true}
             onClick={() => {
-              setDrawerState({ drawerOpen: true });
+              setDrawerState({ isOpen: true });
             }}
           >
             Create Event
           </Button>
           <img
             alt="profile"
-            className={styles["navbar-user-image"]}
+            className={styles["header-user-image"]}
             src={user.photoURL}
           />
-          <span className={styles["navbar-user-name"]}>{user.displayName}</span>
+          <span className={styles["header-user-name"]}>{user.displayName}</span>
           <NavbarDivider />
           <Button minimal={true} onClick={actions.signOut} icon="log-out">
             Sign Out

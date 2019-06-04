@@ -5,12 +5,14 @@
   "dependencies": {
     "@blueprintjs/core": "^3.15.1",
     "@blueprintjs/datetime": "^3.9.1",
+    "classnames": "^2.2.6",
     "firebase": "^6.1.0",
     "history": "^4.9.0",
     "prop-types": "^15.7.2",
     "react": "^16.8.6",
     "react-countdown-now": "^2.1.0",
     "react-dom": "^16.8.6",
+    "react-json-pretty": "^2.1.0",
     "react-router-dom": "^5.0.0",
     "react-scripts": "3.0.1"
   },

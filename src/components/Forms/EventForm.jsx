@@ -51,6 +51,7 @@ class EventForm extends React.PureComponent {
       startDate,
       endDate
     } = this.state.form;
+    const { form } = this.state;
     const { onClose } = this.props;
 
     database
@@ -66,7 +67,7 @@ class EventForm extends React.PureComponent {
       })
       .then(function() {
         console.log("Document successfully written!");
-        onClose();
+        onClose(form);
       })
       .catch(function(error) {
         console.error("Error writing document: ", error);
@@ -84,8 +85,6 @@ class EventForm extends React.PureComponent {
     this.setState({ form });
   };
 
-  renderForm = () => {};
-
   renderText = (key, label) => {
     return (
       <Label htmlFor={key} className={styles["eventform-field"]}>
@@ -95,7 +94,7 @@ class EventForm extends React.PureComponent {
           placeholder={label + "..."}
           value={this.state.form[key]}
           onChange={val => {
-            this.formChange(val, key);
+            this.handleChange(val, key);
           }}
         />
       </Label>
@@ -108,7 +107,7 @@ class EventForm extends React.PureComponent {
         {label}
         <DatePicker
           onChange={val => {
-            this.formChange(val, key);
+            this.handleChange(val, key);
           }}
           showActionsBar={true}
           timePrecision={TimePrecision.MINUTE}
@@ -140,7 +139,7 @@ class EventForm extends React.PureComponent {
               options={["Select...", "event", "raid_boss"]}
               value={this.state.form.eventType}
               onChange={val => {
-                this.formChange(val, "eventType");
+                this.handleChange(val, "eventType");
               }}
             />
           </Label>
