@@ -8,9 +8,14 @@
 .list-filters {
   position: fixed;
   top: 70px;
-  left: 40%;
+  left: 35%;
 }
 
-.gen-search {
+.list-search {
   padding-bottom: 25px;
+}
+
+.list-pokedex {
+  padding-top: 150px;
+  overflow-y: auto;
 }

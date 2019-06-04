@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import { InputGroup, Tabs, Tab, Tooltip, Position } from "@blueprintjs/core";
 
 import styles from "./List.module.css";
@@ -24,35 +25,35 @@ class ListNavbar extends React.PureComponent {
     );
   };
 
-  onSearch = val => {};
-
   render() {
+    const { onFilter } = this.props;
+
     return (
-      <div className={styles["list-container"]}>
-        <div className={styles["list-filters"]}>
-          <Tabs
-            animate={true}
-            onChange={gen => {
-              this.setState({ selectedTabId: gen });
-            }}
-            selectedTabId={this.state.selectedTabId}
-          >
-            {this.renderGen("Kanto")}
-            {this.renderGen("Jhoto")}
-            {this.renderGen("Hoenn")}
-            {this.renderGen("Sinnoh")}
-            <div className={styles["gen-search"]}>
-              <InputGroup
-                type="text"
-                placeholder="Search..."
-                onChange={this.onSearch}
-              />
-            </div>
-          </Tabs>
-        </div>
-      </div>
+      <Tabs
+        className={styles["list-filters"]}
+        animate={true}
+        onChange={gen => {
+          this.setState({ selectedTabId: gen });
+        }}
+        selectedTabId={this.state.selectedTabId}
+      >
+        {this.renderGen("Kanto")}
+        {this.renderGen("Jhoto")}
+        {this.renderGen("Hoenn")}
+        {this.renderGen("Sinnoh")}
+        <InputGroup
+          className={styles["list-search"]}
+          type="text"
+          placeholder="Search..."
+          onChange={onFilter}
+        />
+      </Tabs>
     );
   }
 }
+
+ListNavbar.propTypes = {
+  onFilter: PropTypes.func.isRequired
+};
 
 export default ListNavbar;
